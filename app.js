@@ -1,31 +1,30 @@
-const express = require("express");
+const path = require('path');
 
-const path = require("path");
+const express = require('express');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 
-//  *** Using Express Router ***
-const bodyParser = require("body-parser");
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+const errorController = require("./controllers/404");
 const adminRoutes = require("./routes/admin");
-const shopRoutes = require("./routes/shop"); 
-const contactUsRoutes = require("./routes/contactus"); 
-const successRoutes = require("./routes/success"); 
+const shopRoutes = require("./routes/shop");
+const contactUsRoutes = require("./routes/contactus"); // create contact us route
+const successRoutes = require("./routes/success"); // create success route
 
 
-
-app.use(bodyParser.urlencoded({ extended: false })); 
-app.use(express.static(path.join(__dirname, "publlic")));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/admin", adminRoutes);
-app.use(shopRoutes); 
-app.use(contactUsRoutes); 
-app.use(successRoutes);
+app.use(shopRoutes);
+app.use(contactUsRoutes); // use contact us route
+app.use(successRoutes); // use success route
 
 
-app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, "views", "404.html")); 
-});
-
+app.use(errorController.get404);
 
 app.listen(3000);
