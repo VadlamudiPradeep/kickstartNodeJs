@@ -1,19 +1,37 @@
-const path = require("path");
 
-const rootDir = require("../util/path");
+let products = []
+// /contactus => GET
+let getAddContactus =((req, res, next) => {
+  res.render('contactus', {
+    pageTitle: 'Contact Us',
+    path: '/',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true
+  });
+});
 
-exports.getContactUs = (req, res, next) => {
-  console.log("In contactus middleware!");
-  res.sendFile(path.join(rootDir, "views", "contactus.html"));
-};
+let postAddContactus =((req, res, next) => {
+  products.push({ title: req.body.title });
+  res.redirect('/success');
+});
 
-exports.postContactUs = (req, res, next) => {
-  // console.log(req.body);  // // req.body = [Object: null prototype] { title: 'product' }
-  const obj = JSON.parse(JSON.stringify(req.body));
-  console.log(obj); // { title: 'product' }
-  res.redirect("/success");
-};
 
-exports.getSuccess = (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "success.html"));
-};
+let getAddSuccess =((req, res, next)=>{
+   
+    res.render('success', {
+      prods: products,
+      pageTitle: 'Success',
+      path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
+    });
+});
+
+  
+  module.exports = {
+    getAddContactus,
+    postAddContactus,
+    getAddSuccess
+  }

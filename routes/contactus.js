@@ -5,8 +5,8 @@ const contactUsController = require("../controllers/contactus");
 
 const router = express.Router();
 
-router.get("/contactus", contactUsController.getContactUs);
+router.get("/contactus", contactUsController.getAddContactus);
 
-router.post("/success", contactUsController.postContactUs);
+router.post("/success", contactUsController.postAddContactus)
 
 module.exports = router;
