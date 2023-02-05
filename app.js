@@ -21,6 +21,6 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000,()=>{
-    console.log('on port is 3000');
+app.listen(8000,()=>{
+    console.log("on port 8000");
 });
